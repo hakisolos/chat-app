@@ -1,4 +1,4 @@
-const apiUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : 'https://your-deployed-api-url.com/api';
+const apiUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : 'https://nikka-gpt.onrender.com';
 
 chatForm.addEventListener('submit', async (event) => {
   event.preventDefault();
