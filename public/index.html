@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>NIKKA-AI | Chatbot</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="chat-container">
+    <header>
+      <h1>NIKKA-AI</h1>
+      <p>Your AI Assistant</p>
+    </header>
+
+    <div class="chat-window" id="chat-window">
+      <!-- Messages will be dynamically added here -->
+    </div>
+
+    <form id="chat-form" class="chat-input-container">
+      <input type="text" id="chat-input" placeholder="Ask me anything..." autocomplete="off" required />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</body>
+</html>
