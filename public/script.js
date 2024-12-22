@@ -1,4 +1,4 @@
-/*const chatForm = document.getElementById('chat-form');
+const chatForm = document.getElementById('chat-form');
 const chatInput = document.getElementById('chat-input');
 const chatWindow = document.getElementById('chat-window');
 
@@ -50,4 +50,3 @@ function removeTyping() {
     typingMessage.remove();
   }
 }
-*/
