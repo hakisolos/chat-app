@@ -1,6 +1,4 @@
-const chatForm = document.getElementById('chat-form');
-const chatInput = document.getElementById('chat-input');
-const chatWindow = document.getElementById('chat-window');
+const apiUrl = window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : 'https://your-deployed-api-url.com/api';
 
 chatForm.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -15,7 +13,7 @@ chatForm.addEventListener('submit', async (event) => {
   appendMessage('ai', 'NIKKA-AI is typing...');
 
   try {
-    const response = await axios.post('http://localhost:3000/api', {
+    const response = await axios.post(apiUrl, {
       query: userMessage,
     });
 
@@ -33,20 +31,3 @@ chatForm.addEventListener('submit', async (event) => {
     appendMessage('ai', 'Connection failed. Please try again later.');
   }
 });
-
-// Function to append messages to the chat window
-function appendMessage(sender, message) {
-  const messageElement = document.createElement('div');
-  messageElement.className = `message ${sender}`;
-  messageElement.textContent = message;
-  chatWindow.appendChild(messageElement);
-  chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll to the latest message
-}
-
-// Function to remove typing message
-function removeTyping() {
-  const typingMessage = document.querySelector('.message.ai:last-child');
-  if (typingMessage && typingMessage.textContent === 'NIKKA-AI is typing...') {
-    typingMessage.remove();
-  }
-}
