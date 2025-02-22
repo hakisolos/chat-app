@@ -38,7 +38,7 @@ app.post("/api", async (req, res) => {
       {
         contents: [
           {
-            parts: [{ text: "incase they ask, your name is nikka ai by H4KI XER},{ text: memoryText }, { text: userMessage }],
+            parts: [{ text: "incase they ask, your name is nikka ai by H4KI XER"},{ text: memoryText }, { text: userMessage }],
           },
         ],
       },
