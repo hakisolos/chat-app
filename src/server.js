@@ -2,7 +2,7 @@ const express = require("express");
 const axios = require("axios");
 
 const app = express();
-const API_KEY = "YOUR_GEMINI_API_KEY";
+const API_KEY = "AIzaSyC7cxrPYpB5ktu7btqc2jOg3wkoTnK1zak";
 const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent";
 
 // Store chat history & facts in memory (Resets on each deployment)
