@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>NIKKA-AI | Chatbot</title>
+  <title>REAN-AI | Chatbot</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -18,8 +18,8 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: #1e1e1e;
-  color: #f1f1f1;
+  background: #000000;
+  color: #cec0c0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,7 +31,7 @@ body {
 .chat-container {
   width: 90%;
   max-width: 600px;
-  background: #282828;
+  background: grey;
   border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
   display: flex;
@@ -44,7 +44,7 @@ body {
 
 /* Header Styling */
 header {
-  background: #4c4c4c;
+  background: #000000;
   padding: 20px;
   text-align: center;
   border-top-left-radius: 12px;
@@ -87,8 +87,8 @@ header p {
 }
 
 .message.user {
-  background: #007bff;
-  color: #fff;
+  background: #00ff9d;
+  color: #333333;
   align-self: flex-end;
 }
 
@@ -102,7 +102,7 @@ header p {
 .chat-input-container {
   display: flex;
   padding: 10px;
-  background: #282828;
+  background: #000000;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
 }
@@ -110,7 +110,7 @@ header p {
 #chat-input {
   flex: 1;
   padding: 10px;
-  background: #444;
+  background: #00ff9d;
   border-radius: 12px;
   border: none;
   font-size: 1rem;
@@ -167,20 +167,20 @@ button:hover {
     box-shadow: 0 0 10px #00ff9d;
   }
   25% {
-    border: 4px solid #007bff; /* Blue */
-    box-shadow: 0 0 10px #007bff;
+    border: 4px solid #00ff9d; /* Blue */
+    box-shadow: 0 0 10px#00ff9d;
   }
   50% {
-    border: 4px solid #ffcc00; /* Yellow */
-    box-shadow: 0 0 10px #ffcc00;
+    border: 4px solid #00ff9d; /* Yellow */
+    box-shadow: 0 0 10px #00ff9d;
   }
   75% {
-    border: 4px solid #ff007b; /* Red */
-    box-shadow: 0 0 10px #ff007b;
+    border: 4px solid #00ff9d; /* Red */
+    box-shadow: 0 0 10px #00ff9d;
   }
   100% {
-    border: 4px solid #ff0099; /* Pink */
-    box-shadow: 0 0 10px #ff0099;
+    border: 4px solid#00ff9d; /* Pink */
+    box-shadow: 0 0 10px #00ff9d;
   }
 }
 
@@ -217,12 +217,11 @@ button:hover {
 <body>
   <div class="chat-container">
     <header>
-      <h1>NIKKA-AI</h1>
+      <h1>REAN-AI</h1>
       <p>Your AI Assistant</p>
     </header>
 
     <div class="chat-window" id="chat-window">
-      <!-- Messages will be dynamically added here -->
     </div>
 
     <form id="chat-form" class="chat-input-container">
