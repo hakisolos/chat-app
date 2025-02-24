@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/ai", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public", "ai.html"));
+  res.sendFile("ai.html", { root: path.join(__dirname, "../public") });
 });
 
 
