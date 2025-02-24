@@ -9,10 +9,16 @@ let chatHistory = [];
 let facts = {};
 
 app.use(express.json());
-app.use(express.static("public"));
-app.get("/ai", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public/ai.html"));
+app.use(express.static(path.join(__dirname, "../public")));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public", "index.html"));
 });
+
+app.get("/ai", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public", "ai.html"));
+});
+
+
 const extractFacts = (message) => {
   const nameMatch = message.match(/my name is (\w+)/i);
   if (nameMatch) {
