@@ -1,22 +1,22 @@
 const express = require("express");
 const axios = require("axios");
-
+const path = require("path")
 const app = express();
 const API_KEY = "AIzaSyC7cxrPYpB5ktu7btqc2jOg3wkoTnK1zak";
 const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent";
 
-// Store chat history & facts in memory (Resets on each deployment)
 let chatHistory = [];
 let facts = {};
 
 app.use(express.json());
 app.use(express.static("public"));
-
-// Extract facts (e.g., "My name is Haki")
+app.get("/ai", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/ai.html"));
+});
 const extractFacts = (message) => {
   const nameMatch = message.match(/my name is (\w+)/i);
   if (nameMatch) {
-    facts.name = nameMatch[1]; // Store name
+    facts.name = nameMatch[1];
   }
 };
 
@@ -28,7 +28,6 @@ app.post("/api", async (req, res) => {
     chatHistory.push({ role: "user", text: userMessage });
     extractFacts(userMessage);
 
-    // Keep only the last 5 messages
     chatHistory = chatHistory.slice(-5);
 
     const memoryText = facts.name ? `The user's name is ${facts.name}.` : "";
@@ -59,7 +58,6 @@ app.post("/api", async (req, res) => {
   }
 });
 
-// Start server
 app.listen(3000, () => {
   console.log("Server is running on http://localhost:3000");
 });
