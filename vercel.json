@@ -10,13 +10,6 @@
     {
       "src": "/api/(.*)",
       "dest": "/src/server.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/public/$1"
     }
-  ],
-  "static": {
-    "directory": "public"
-  }
+  ]
 }
