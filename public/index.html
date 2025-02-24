@@ -25,7 +25,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      overflow: hidden;
+      overflow-y: auto;
     }
 
     /* Chat Container */
@@ -38,8 +38,7 @@
       display: flex;
       flex-direction: column;
       height: 80vh;
-      max-height: 500px;
-      overflow: hidden;
+      max-height: 600px;
     }
 
     /* Header Styling */
@@ -53,7 +52,7 @@
 
     header h1 {
       color: #00ff9d;
-      font-size: 2.5rem;
+      font-size: 2rem;
     }
 
     /* Chat Window */
@@ -61,7 +60,6 @@
       flex: 1;
       overflow-y: auto;
       padding: 10px;
-      margin-bottom: 10px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -71,17 +69,18 @@
       padding: 12px 16px;
       border-radius: 18px;
       max-width: 80%;
-      font-size: 1.2rem;
+      font-size: 1rem;
       line-height: 1.4;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
       display: flex;
       align-items: center;
+      word-break: break-word;
     }
 
     /* User Message */
     .message.user {
       background: #00ff9d;
-      color: #333333;
+      color: #121212;
       align-self: flex-end;
     }
 
@@ -112,16 +111,16 @@
     }
 
     #chat-input {
-      flex: 1;
-      padding: 10px;
-      background: #00ff9d;
-      border-radius: 12px;
-      border: none;
-      font-size: 1rem;
-      color: #fff;
-      margin-right: 10px;
-      outline: none;
-    }
+  width: 60%; /* Adjust width to desired size */
+  padding: 10px;
+  background: #00ff9d;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  color: #fff;
+  margin-right: 10px;
+  outline: none;
+}
 
     button {
       padding: 10px 16px;
@@ -159,40 +158,105 @@
   </div>
 
   <script>
-    function sendMessage() {
-      let inputField = document.getElementById('chat-input');
-      let messageText = inputField.value.trim();
+    const chatForm = document.getElementById('chat-form');
+      const chatInput = document.getElementById('chat-input');
+      const chatWindow = document.getElementById('chat-window');
 
-      if (messageText === '') return;
+      window.onload = loadChatHistory;
 
-      let chatWindow = document.getElementById('chat-window');
+      chatForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-      // User Message
-      let userMessage = document.createElement('div');
-      userMessage.classList.add('message', 'user');
-      userMessage.textContent = messageText;
-      chatWindow.appendChild(userMessage);
+        const userMessage = chatInput.value.trim();
+        if (!userMessage) return;
 
-      inputField.value = '';
+        appendMessage('user', userMessage);
+        chatInput.value = '';
 
-      setTimeout(() => {
-        let botMessage = document.createElement('div');
-        botMessage.classList.add('message', 'ai');
+        const spinnerElement = startSpinner();
 
-        let botAvatar = document.createElement('img');
-        botAvatar.src = "bot-avatar.png"; // Replace with your bot image path
-        botAvatar.classList.add('bot-avatar');
+        try {
+          let chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
 
-        let botText = document.createElement('span');
-        botText.textContent = "I'm an AI! How can I help?";
+          const response = await axios.post('/api', {
+            conversation: chatHistory, // Send full conversation history
+            query: userMessage
+          });
 
-        botMessage.appendChild(botAvatar);
-        botMessage.appendChild(botText);
-        chatWindow.appendChild(botMessage);
+          stopSpinner(spinnerElement);
 
+          let botResponse = response.data && response.data.response
+            ? response.data.response
+            : 'Sorry, I couldn’t process your request.';
+
+          appendMessage('ai', botResponse);
+
+          // Save updated conversation
+          saveChatHistory(userMessage, botResponse);
+        } catch (error) {
+          console.error('Error:', error);
+          stopSpinner(spinnerElement);
+          appendMessage('ai', 'Connection failed. Please try again later.');
+        }
+      });
+
+      // Append messages to chat window
+      function appendMessage(sender, message) {
+        const messageElement = document.createElement('div');
+        messageElement.className = `message ${sender}`;
+        messageElement.textContent = message;
+        chatWindow.appendChild(messageElement);
         chatWindow.scrollTop = chatWindow.scrollHeight;
-      }, 1000);
-    }
+      }
+
+      // Spinner animation
+      function startSpinner() {
+        const spinnerElement = document.createElement('div');
+        spinnerElement.className = 'message ai';
+        spinnerElement.textContent = '⠋';
+        chatWindow.appendChild(spinnerElement);
+
+        let frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+        let index = 0;
+
+        spinnerElement.spinnerInterval = setInterval(() => {
+          spinnerElement.textContent = frames[index];
+          index = (index + 1) % frames.length;
+        }, 100);
+
+        return spinnerElement;
+      }
+
+      // Remove spinner
+      function stopSpinner(spinnerElement) {
+        clearInterval(spinnerElement.spinnerInterval);
+        spinnerElement.remove();
+      }
+
+      // Load chat history from localStorage
+      function loadChatHistory() {
+        let chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
+        chatHistory.forEach(msg => appendMessage(msg.role, msg.text));
+      }
+
+      // Save chat history and send previous messages in API request
+      function saveChatHistory(userMessage, botMessage) {
+        let chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
+        chatHistory.push({ role: "user", text: userMessage });
+        chatHistory.push({ role: "ai", text: botMessage });
+
+        // Limit history size (optional: only keep last 10 messages)
+        if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
+
+        localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+      }
+
+      // Clear chat history
+      function clearChatHistory() {
+        localStorage.removeItem("chatHistory");
+        chatWindow.innerHTML = "";
+      }
+
   </script>
 
 </body>
